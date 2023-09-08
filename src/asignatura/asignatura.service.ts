@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException,NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
 import { UpdateAsignaturaDto } from './dto/update-asignatura.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,26 +10,24 @@ import { Asignatura } from './entities/asignatura.entity';
 import { Repository } from 'typeorm';
 import { UsuarioService } from 'src/usuario/usuario.service';
 
-
 @Injectable()
 export class AsignaturaService {
-
   constructor(
     @InjectRepository(Asignatura)
     private readonly asignaturaRepository: Repository<Asignatura>,
-    private readonly usuarioService: UsuarioService
+    private readonly usuarioService: UsuarioService,
   ) {}
 
   async create(createAsignaturaDto: CreateAsignaturaDto) {
-      const { userEmail, ...asignaturaDetail } = createAsignaturaDto;
-      const usuario = await this.usuarioService.findOne(userEmail);
-      if (usuario) {
-        const newAsignatura = this.asignaturaRepository.create(asignaturaDetail);
-        newAsignatura.usuario=usuario;
-        await this.asignaturaRepository.save(newAsignatura);
-        return newAsignatura;
-      }
-      throw new NotFoundException('Usuario not found')
+    const { userEmail, ...asignaturaDetail } = createAsignaturaDto;
+    const usuario = await this.usuarioService.findOne(userEmail);
+    if (usuario) {
+      const newAsignatura = this.asignaturaRepository.create(asignaturaDetail);
+      newAsignatura.usuario = usuario;
+      await this.asignaturaRepository.save(newAsignatura);
+      return newAsignatura;
+    }
+    throw new NotFoundException('Usuario not found');
   }
 
   findAll() {
@@ -34,9 +36,20 @@ export class AsignaturaService {
 
   async findOne(id: number) {
     const asignatura = await this.asignaturaRepository.findOne({
-      where: {id}});
+      where: { id },
+    });
     if (!asignatura) throw new NotFoundException('Asignatura not found');
     return asignatura;
+  }
+
+  async getTareas(id: number) {
+    const asignatura = await this.asignaturaRepository.findOne({
+      where: { id },
+      relations: ['tareas'],
+    });
+    if (!asignatura) throw new NotFoundException('usuario not found');
+    const { tareas, ...userdetial } = asignatura;
+    return tareas;
   }
 
   update(id: number, updateAsignaturaDto: UpdateAsignaturaDto) {
