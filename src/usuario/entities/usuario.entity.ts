@@ -1,29 +1,32 @@
-import { Asignatura } from "src/asignatura/entities/asignatura.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Asignatura } from 'src/asignatura/entities/asignatura.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Usuario {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column('text')
+  fullName: string;
 
-    @Column('text')
-    fullName: string;
-    
-    @Column('text', {unique: true})
-    email: string;
+  @Column('text', { unique: true })
+  email: string;
 
-    @Column('text',{
-        select: false
-    })
-    password: string;
+  @Column('text', {
+    select: false,
+  })
+  password: string;
 
-    @OneToMany(
-        () => Asignatura,
-        (asignatura) => asignatura.usuario, 
-        {onDelete: 'CASCADE'}
-    )
-    asignaturas?: Asignatura[];
-    
-
+  @OneToMany(() => Asignatura, (asignatura) => asignatura.usuario, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  asignaturas?: Asignatura[];
 }

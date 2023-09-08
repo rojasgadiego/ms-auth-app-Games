@@ -1,11 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Tarea } from './entities/tarea.entity';
+import { Repository } from 'typeorm';
+import { AsignaturaService } from 'src/asignatura/asignatura.service';
 
 @Injectable()
 export class TareaService {
-  create(createTareaDto: CreateTareaDto) {
-    return 'This action adds a new tarea';
+  constructor(
+    @InjectRepository(Tarea)
+    private readonly tareaRepository: Repository<Tarea>,
+    private readonly asignaturaService: AsignaturaService,
+  ) {}
+
+  async create(createTareaDto: CreateTareaDto) {
+    const { idAsignatura, ...horariodetail } = createTareaDto;
+    const asignatura = await this.asignaturaService.findOne(idAsignatura);
+    if (asignatura) {
+      const newTartea = this.tareaRepository.create(horariodetail);
+      newTartea.asignatura = asignatura;
+      await this.tareaRepository.save(newTartea);
+      return newTartea;
+    }
+    throw new BadRequestException();
   }
 
   findAll() {

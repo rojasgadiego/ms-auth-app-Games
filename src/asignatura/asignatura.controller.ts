@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AsignaturaService } from './asignatura.service';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
 import { UpdateAsignaturaDto } from './dto/update-asignatura.dto';
@@ -17,13 +25,21 @@ export class AsignaturaController {
     return this.asignaturaService.findAll();
   }
 
+  @Get('/tareas')
+  findAsignaturas(@Body('id') id: number) {
+    return this.asignaturaService.getTareas(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.asignaturaService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAsignaturaDto: UpdateAsignaturaDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAsignaturaDto: UpdateAsignaturaDto,
+  ) {
     return this.asignaturaService.update(+id, updateAsignaturaDto);
   }
 
