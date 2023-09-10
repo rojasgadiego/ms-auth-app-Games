@@ -31,7 +31,7 @@ export class UsuarioController {
   }
 
   @Get(':email')
-  findAsignaturas(email: string) {
+  findAsignaturas(@Param('email') email: string) {
     return this.usuarioService.getAsignaturas(email);
   }
 
