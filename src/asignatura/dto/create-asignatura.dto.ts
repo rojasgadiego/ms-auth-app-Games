@@ -12,7 +12,7 @@ export class CreateAsignaturaDto {
     @IsOptional()
     sala: string;
 
-    @IsInt()
+    @IsString()
     @IsOptional()
     nrc: string;
 
