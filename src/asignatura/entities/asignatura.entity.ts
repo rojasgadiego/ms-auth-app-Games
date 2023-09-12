@@ -24,7 +24,7 @@ export class Asignatura {
   @Column('text')
   sala?: string;
 
-  @Column('int')
+  @Column('text')
   nrc?: string;
 
   @OneToMany(() => Horario, (horario) => horario.asignatura, {
