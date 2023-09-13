@@ -52,11 +52,14 @@ export class AsignaturaService {
     return tareas;
   }
 
-  update(id: number, updateAsignaturaDto: UpdateAsignaturaDto) {
-    return `This action updates a #${id} asignatura`;
+  async remove(id: number) {
+    const asignatura = await this.findOne(id);
+    if (!asignatura) throw new NotFoundException('Asignatura not found');
+    this.asignaturaRepository.remove(asignatura);
+    return asignatura;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} asignatura`;
-  }
+  // update(id: number, updateAsignaturaDto: UpdateAsignaturaDto) {
+  //   return `This action updates a #${id} asignatura`;
+  // }
 }
