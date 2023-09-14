@@ -17,18 +17,12 @@ export class Tarea {
   fechaIngreso?: Date;
 
   @Column({
-    type: 'date',
+    type: 'text',
   })
-  fechaTermino?: Date;
+  fechaTermino?: String;
 
   @Column({ type: 'text', default: 'Creada' })
   estado?: String;
-
-  @Column({
-    type: 'date',
-    default: () => 'NOW()',
-  })
-  fechaActualizacionEstado?: Date;
 
   @Column({ type: 'bool', default: 'false' })
   finalizada?: boolean;

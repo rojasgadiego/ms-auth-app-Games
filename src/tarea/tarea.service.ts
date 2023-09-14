@@ -15,10 +15,10 @@ export class TareaService {
   ) {}
 
   async create(createTareaDto: CreateTareaDto) {
-    const { idAsignatura, ...horariodetail } = createTareaDto;
+    const { idAsignatura, ...tareadetail } = createTareaDto;
     const asignatura = await this.asignaturaService.findOne(idAsignatura);
     if (asignatura) {
-      const newTartea = this.tareaRepository.create(horariodetail);
+      const newTartea = this.tareaRepository.create(tareadetail);
       newTartea.asignatura = asignatura;
       await this.tareaRepository.save(newTartea);
       return newTartea;
