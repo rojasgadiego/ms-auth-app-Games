@@ -6,4 +6,7 @@ export class CreateTareaDto {
 
   @IsInt()
   idAsignatura: number;
+
+  @IsDate()
+  fechaTermino: Date;
 }

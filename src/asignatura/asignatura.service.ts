@@ -47,7 +47,7 @@ export class AsignaturaService {
       where: { id },
       relations: ['tareas'],
     });
-    if (!asignatura) throw new NotFoundException('usuario not found');
+    if (!asignatura) throw new NotFoundException('Asignatura not found');
     const { tareas, ...userdetial } = asignatura;
     return tareas;
   }

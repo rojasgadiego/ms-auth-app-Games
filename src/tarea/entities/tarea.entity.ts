@@ -18,7 +18,6 @@ export class Tarea {
 
   @Column({
     type: 'date',
-    default: () => 'NOW()',
   })
   fechaTermino?: Date;
 
