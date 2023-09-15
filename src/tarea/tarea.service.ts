@@ -27,7 +27,7 @@ export class TareaService {
   }
 
   findAll() {
-    return `This action returns all tarea`;
+    return this.tareaRepository.find();
   }
 
   findOne(id: number) {

@@ -16,8 +16,8 @@ export class AsignaturaController {
     return this.asignaturaService.findAll();
   }
 
-  @Get('/tareas')
-  findAsignaturas(@Body('id') id: number) {
+  @Get('/tareas/:id')
+  findAsignaturas(@Param('id') id: number) {
     return this.asignaturaService.getTareas(id);
   }
 
