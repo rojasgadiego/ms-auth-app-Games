@@ -30,6 +30,7 @@ export class Asignatura {
   @OneToMany(() => Horario, (horario) => horario.asignatura, {
     onDelete: 'CASCADE',
   })
+  @JoinTable()
   horarios?: Horario[];
 
   @OneToMany(() => Tarea, (tarea) => tarea.asignatura, {

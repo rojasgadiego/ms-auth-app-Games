@@ -38,8 +38,8 @@ export class TareaController {
     return this.tareaService.update(+id, updateTareaDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete()
+  remove(@Body('id') id: number) {
     return this.tareaService.remove(+id);
   }
 }

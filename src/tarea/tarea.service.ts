@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,15 +34,34 @@ export class TareaService {
     return this.tareaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tarea`;
+  async findOne(id: number) {
+    const tarea = await this.tareaRepository.findOne({
+      where: { id },
+    });
+    if (!tarea) throw new NotFoundException('Asignatura not found');
+    return tarea;
   }
 
-  update(id: number, updateTareaDto: UpdateTareaDto) {
-    return `This action updates a #${id} tarea`;
+  async update(id: number, updateTareaDto: UpdateTareaDto) {
+    const tarea = await this.tareaRepository.preload({
+      id: id,
+      ...updateTareaDto,
+    });
+
+    if (!tarea) throw new NotFoundException(`Tarea whit id: ${id} not found`);
+
+    try {
+      await this.tareaRepository.save(tarea);
+      return tarea;
+    } catch (error) {
+      return error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tarea`;
+  async remove(id: number) {
+    const tarea = await this.findOne(id);
+    if (!tarea) throw new NotFoundException('Tarea not found');
+    this.tareaRepository.remove(tarea);
+    return tarea;
   }
 }
