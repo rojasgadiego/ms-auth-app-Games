@@ -1,9 +1,19 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { AsignaturaService } from './asignatura.service';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
 @Controller('asignatura')
+@UseGuards(JwtAuthGuard)
 export class AsignaturaController {
   constructor(private readonly asignaturaService: AsignaturaService) {}
 
