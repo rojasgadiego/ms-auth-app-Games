@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { AsignaturaService } from './asignatura.service';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
 
+
 @Controller('asignatura')
 export class AsignaturaController {
   constructor(private readonly asignaturaService: AsignaturaService) {}
