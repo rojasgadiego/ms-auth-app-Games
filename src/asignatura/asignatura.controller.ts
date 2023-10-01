@@ -11,6 +11,7 @@ import { AsignaturaService } from './asignatura.service';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+
 @Controller('asignatura')
 @UseGuards(JwtAuthGuard)
 export class AsignaturaController {
