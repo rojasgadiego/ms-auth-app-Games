@@ -1,10 +1,5 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
-import { UpdateAsignaturaDto } from './dto/update-asignatura.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Asignatura } from './entities/asignatura.entity';
 import { Repository } from 'typeorm';
@@ -55,8 +50,10 @@ export class AsignaturaService {
   async remove(id: number) {
     const asignatura = await this.findOne(id);
     if (!asignatura) throw new NotFoundException('Asignatura not found');
-    this.asignaturaRepository.remove(asignatura);
-    return asignatura;
+    try {
+      this.asignaturaRepository.remove(asignatura);
+      return asignatura;
+    } catch (error) {}
   }
 
   // update(id: number, updateAsignaturaDto: UpdateAsignaturaDto) {

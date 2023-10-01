@@ -61,7 +61,11 @@ export class TareaService {
   async remove(id: number) {
     const tarea = await this.findOne(id);
     if (!tarea) throw new NotFoundException('Tarea not found');
-    this.tareaRepository.remove(tarea);
-    return tarea;
+    try {
+      this.tareaRepository.remove(tarea);
+      return tarea;
+    } catch (error) {
+      return error;
+    }
   }
 }
