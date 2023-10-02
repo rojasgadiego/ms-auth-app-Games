@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException} from '@nestjs/common';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,8 +30,12 @@ export class TareaService {
     return this.tareaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tarea`;
+  async findOne(id: number) {
+    const tarea = await this.tareaRepository.findOne({
+      where: { id },
+    });
+    if (!tarea) throw new NotFoundException('Tarea not found');
+    return tarea;
   }
 
   async update(id: number, updateTareaDto: UpdateTareaDto) {
