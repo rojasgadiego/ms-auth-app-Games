@@ -10,8 +10,10 @@ import {
 import { AsignaturaService } from './asignatura.service';
 import { CreateAsignaturaDto } from './dto/create-asignatura.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-
+@ApiBearerAuth()
+@ApiTags('Asignatura')
 @Controller('asignatura')
 @UseGuards(JwtAuthGuard)
 export class AsignaturaController {
@@ -41,12 +43,4 @@ export class AsignaturaController {
   remove(@Body('id') id: number) {
     return this.asignaturaService.remove(+id);
   }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateAsignaturaDto: UpdateAsignaturaDto,
-  // ) {
-  //   return this.asignaturaService.update(+id, updateAsignaturaDto);
-  // }
 }

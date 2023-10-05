@@ -12,7 +12,10 @@ import { TareaService } from './tarea.service';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Tarea')
 @Controller('tarea')
 @UseGuards(JwtAuthGuard)
 export class TareaController {

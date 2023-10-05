@@ -38,10 +38,7 @@ export class AsignaturaService {
   }
 
   async getTareas(id: number) {
-    const asignatura = await this.asignaturaRepository.findOne({
-      where: { id },
-      relations: ['tareas'],
-    });
+    const asignatura = await this.findOne(id);
     if (!asignatura) throw new NotFoundException('Asignatura not found');
     const { tareas, ...userdetial } = asignatura;
     return tareas;
