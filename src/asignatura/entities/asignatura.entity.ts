@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToOne,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { Horario } from 'src/horario/entities/horario.entity';
 import { Tarea } from 'src/tarea/entities/tarea.entity';
@@ -30,13 +31,11 @@ export class Asignatura {
   @OneToMany(() => Horario, (horario) => horario.asignatura, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   horarios?: Horario[];
 
   @OneToMany(() => Tarea, (tarea) => tarea.asignatura, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
   tareas?: Tarea[];
 
   @ManyToOne(() => Usuario, (usuario) => usuario.asignaturas)

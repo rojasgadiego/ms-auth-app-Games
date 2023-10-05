@@ -1,6 +1,12 @@
 import { isIn } from 'class-validator';
 import { Asignatura } from 'src/asignatura/entities/asignatura.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Tarea {
@@ -27,6 +33,9 @@ export class Tarea {
   @Column({ type: 'bool', default: 'false' })
   finalizada?: boolean;
 
-  @ManyToOne(() => Asignatura, (Asignatura) => Asignatura.tareas)
+  @ManyToOne(() => Asignatura, (Asignatura) => Asignatura.tareas, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'asignaturaId' })
   asignatura: Asignatura;
 }
