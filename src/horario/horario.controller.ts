@@ -19,24 +19,24 @@ import { ApiTags } from '@nestjs/swagger';
 export class HorarioController {
   constructor(private readonly horarioService: HorarioService) {}
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  create(@Body() createHorarioDto: CreateHorarioDto) {
-    return this.horarioService.create(createHorarioDto);
-  }
+  // @Post()
+  // @UseGuards(JwtAuthGuard)
+  // create(@Body() createHorarioDto: CreateHorarioDto) {
+  //   return this.horarioService.create(createHorarioDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.horarioService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.horarioService.findAll();
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHorarioDto: UpdateHorarioDto) {
-    return this.horarioService.update(+id, updateHorarioDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateHorarioDto: UpdateHorarioDto) {
+  //   return this.horarioService.update(+id, updateHorarioDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.horarioService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: number) {
+  //   return this.horarioService.remove(id);
+  // }
 }

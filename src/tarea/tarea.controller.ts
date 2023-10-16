@@ -15,21 +15,17 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiTags('Tarea')
-@Controller('tarea')
+@ApiTags('Tareas')
+@Controller('tareas')
 @UseGuards(JwtAuthGuard)
 export class TareaController {
   constructor(private readonly tareaService: TareaService) {}
 
-  @Post()
+  @Post('add')
   create(@Body() createTareaDto: CreateTareaDto) {
     return this.tareaService.create(createTareaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.tareaService.findAll();
-  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -41,8 +37,15 @@ export class TareaController {
     return this.tareaService.update(+id, updateTareaDto);
   }
 
-  @Delete()
-  remove(@Body('id') id: number) {
+  // @Delete()
+  // remove(@Body('id') id: number) {
+  //   return this.tareaService.remove(+id);
+  // }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
     return this.tareaService.remove(+id);
   }
+
+
 }

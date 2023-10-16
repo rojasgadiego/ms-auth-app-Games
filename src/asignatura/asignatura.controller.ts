@@ -13,34 +13,41 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiTags('Asignatura')
-@Controller('asignatura')
+@ApiTags('Asignaturas')
+@Controller('asignaturas')
 @UseGuards(JwtAuthGuard)
 export class AsignaturaController {
   constructor(private readonly asignaturaService: AsignaturaService) {}
 
-  @Post()
+  @Post('add')
   create(@Body() createAsignaturaDto: CreateAsignaturaDto) {
     return this.asignaturaService.create(createAsignaturaDto);
   }
 
-  @Get()
+  @Get('find/all')
   findAll() {
     return this.asignaturaService.findAll();
   }
 
-  @Get('/tareas/:id')
-  findAsignaturas(@Param('id') id: number) {
-    return this.asignaturaService.getTareas(id);
-  }
-
-  @Get(':id')
+  @Get('/find/:id')
   findOne(@Param('id') id: number) {
     return this.asignaturaService.findOne(id);
   }
 
-  @Delete()
-  remove(@Body('id') id: number) {
+
+  @Get(':id/tareas')
+  findTareasbyAsignatura(@Param('id') id: number) {
+    return this.asignaturaService.getTareas(id);
+  }
+
+
+  // @Delete()
+  // remove(@Body('id') id: number) {
+  //   return this.asignaturaService.remove(+id);
+  // }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
     return this.asignaturaService.remove(+id);
   }
 }
