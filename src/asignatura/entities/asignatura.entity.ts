@@ -4,8 +4,6 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
-  JoinTable,
-  JoinColumn,
 } from 'typeorm';
 import { Horario } from 'src/horario/entities/horario.entity';
 import { Tarea } from 'src/tarea/entities/tarea.entity';
