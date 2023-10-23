@@ -5,7 +5,6 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Horario } from 'src/horario/entities/horario.entity';
 import { Tarea } from 'src/tarea/entities/tarea.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 
@@ -25,11 +24,6 @@ export class Asignatura {
 
   @Column('text')
   nrc?: string;
-
-  @OneToMany(() => Horario, (horario) => horario.asignatura, {
-    onDelete: 'CASCADE',
-  })
-  horarios?: Horario[];
 
   @OneToMany(() => Tarea, (tarea) => tarea.asignatura, {
     onDelete: 'CASCADE',

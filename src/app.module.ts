@@ -3,9 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AsignaturaModule } from './asignatura/asignatura.module';
 import { UsuarioModule } from './usuario/usuario.module';
-import { HorarioModule } from './horario/horario.module';
 import { TareaModule } from './tarea/tarea.module';
-import { CalificacionModule } from './calificacion/calificacion.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -21,9 +19,11 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    AsignaturaModule, 
-    UsuarioModule, 
-    HorarioModule, TareaModule, CalificacionModule, AuthModule],
+    AsignaturaModule,
+    UsuarioModule,
+    TareaModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
