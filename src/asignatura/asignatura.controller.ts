@@ -40,12 +40,6 @@ export class AsignaturaController {
     return this.asignaturaService.getTareas(id);
   }
 
-
-  // @Delete()
-  // remove(@Body('id') id: number) {
-  //   return this.asignaturaService.remove(+id);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.asignaturaService.remove(+id);
