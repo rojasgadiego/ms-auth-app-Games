@@ -1,52 +1,53 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
   UseGuards,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Usuario')
-@Controller('usuario')
+@ApiBearerAuth()
+@ApiTags('Usuarios')
+@Controller('usuarios')
 @UseGuards(JwtAuthGuard)
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuarioService.create(createUsuarioDto);
-  }
+  // @Get('/getAll')
+  // findAll() {
+  //   return this.usuarioService.findAll();
+  // }
 
-  @Get('/getAll')
-  findAll() {
-    return this.usuarioService.findAll();
-  }
+  // @Get('/')
+  // findAll() {
+  //   return this.usuarioService.findAll();
+  // }
 
-  @Get('/')
-  findOne(@Body('email') email: string) {
-    return this.usuarioService.findOne(email);
-  }
+  // @Get('/')
+  // findOne(@Body('email') email: string) {
+  //   return this.usuarioService.findOne(email);
+  // }
 
-  @Get(':email')
+  // @Get(':email')
+  // findOne(@Param('email') email: string) {
+  //   return this.usuarioService.findOne(email);
+  // }
+
+  @Get(':email/asignaturas')
   findAsignaturas(@Param('email') email: string) {
     return this.usuarioService.getAsignaturas(email);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuarioService.update(+id, updateUsuarioDto);
-  }
+  // @Get('/:email/asignaturas')
+  // findAsignaturas(@Param('email') email: string) {
+  //   return this.usuarioService.getAsignaturas(email);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuarioService.remove(+id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+  //   return this.usuarioService.update(+id, updateUsuarioDto);
+  // }
+
 }
