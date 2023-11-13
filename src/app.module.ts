@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AsignaturaModule } from './asignatura/asignatura.module';
 import { UsuarioModule } from './usuario/usuario.module';
-import { TareaModule } from './tarea/tarea.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -17,11 +15,9 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: true, //never in production
     }),
-    AsignaturaModule,
     UsuarioModule,
-    TareaModule,
     AuthModule,
   ],
   controllers: [],

@@ -1,10 +1,5 @@
-import {
-  Controller,
-  Get,
-  Param,
-  UseGuards,
-} from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { UsuarioService } from '../services/usuario.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -30,24 +25,13 @@ export class UsuarioController {
   //   return this.usuarioService.findOne(email);
   // }
 
-  // @Get(':email')
-  // findOne(@Param('email') email: string) {
-  //   return this.usuarioService.findOne(email);
-  // }
-
-  @Get(':email/asignaturas')
-  findAsignaturas(@Param('email') email: string) {
-    return this.usuarioService.getAsignaturas(email);
+  @Get(':email')
+  findOne(@Param('email') email: string) {
+    return this.usuarioService.findOne(email);
   }
-
-  // @Get('/:email/asignaturas')
-  // findAsignaturas(@Param('email') email: string) {
-  //   return this.usuarioService.getAsignaturas(email);
-  // }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
   //   return this.usuarioService.update(+id, updateUsuarioDto);
   // }
-
 }

@@ -1,11 +1,4 @@
-import { Asignatura } from 'src/asignatura/entities/asignatura.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Usuario {
@@ -13,7 +6,7 @@ export class Usuario {
   id: number;
 
   @Column('text')
-  fullName: string;
+  name?: string;
 
   @Column('text', { unique: true })
   email: string;
@@ -22,10 +15,4 @@ export class Usuario {
     select: false,
   })
   password: string;
-
-  @OneToMany(() => Asignatura, (asignatura) => asignatura.usuario, {
-    onDelete: 'CASCADE',
-  })
-  @JoinTable()
-  asignaturas?: Asignatura[];
 }
