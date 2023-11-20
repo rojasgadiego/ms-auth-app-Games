@@ -13,10 +13,6 @@ export class UsuarioService {
 
   async createUser(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     const newUser = await this.usuarioRepository.create(createUsuarioDto);
-    return newUser;
-  }
-
-  async saveUser(newUser: Usuario): Promise<Usuario> {
     return this.usuarioRepository.save(newUser);
   }
 
@@ -24,20 +20,17 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  async findOne(email: string) {
+  async findOnebyEmail(email: string): Promise<Usuario> {
     const usuario = await this.usuarioRepository.findOne({
       where: { email },
+      select: { email: true, password: true, id: true },
     });
-    if (!usuario) throw new NotFoundException('usuario not found');
     return usuario;
   }
 
-  async findByEmail(email: string): Promise<Usuario> {
-    return this.usuarioRepository.findOne({
-      where: {
-        email,
-      },
-      select: { password: true, name: true, email: true },
+  async findOneById(id: number): Promise<Usuario> {
+    return await this.usuarioRepository.findOne({
+      where: { id },
     });
   }
 }

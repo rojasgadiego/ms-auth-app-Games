@@ -6,6 +6,7 @@ service AuthService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
   rpc Register (RegisterRequest) returns (RegisterResponse) {}
   rpc Validate (ValidateRequest) returns (ValidateResponse) {}
+  rpc findUserById (findUserRequest) returns (findUserResponse) {}
 }
 
 // Login
@@ -45,3 +46,24 @@ message ValidateResponse {
   repeated string error = 2;
   int32 userId = 3;
 }
+
+
+//findUserbyId 
+
+message findUserRequest {
+  int32 idUser = 1;
+}
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message findUserResponse {
+  int32 status = 1;
+  repeated string error = 2;
+  User user = 3;
+}
+
+

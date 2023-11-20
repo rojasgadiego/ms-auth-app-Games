@@ -5,26 +5,26 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { LoginUserDto, CreateUserDto } from '../dto/index';
+import { UsuarioService } from 'src/usuario/services/usuario.service';
+import { FindUserId } from '../dto/finduserbyId.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Usuario)
-    private readonly userRepository: Repository<Usuario>,
     private readonly JwtService: JwtService,
+    private usuarioService: UsuarioService,
   ) {}
 
   async register({ email, password, name }: CreateUserDto) {
-    let auth = await this.userRepository.findOne({ where: { email } });
+    let auth = await this.usuarioService.findOnebyEmail(email);
     if (auth) {
       return { status: HttpStatus.CONFLICT, error: ['E-Mail already exists'] };
     }
-    const usuario = this.userRepository.create({
+    await this.usuarioService.createUser({
       name,
       email,
       password: bcrypt.hashSync(password, 10),
     });
-    await this.userRepository.save(usuario);
     return { status: HttpStatus.CREATED, error: null };
   }
 
@@ -45,10 +45,7 @@ export class AuthService {
   // }
 
   async login({ email, password }: LoginUserDto) {
-    let userdb = await this.userRepository.findOne({
-      where: { email },
-      select: { email: true, password: true, id: true },
-    });
+    let userdb = await this.usuarioService.findOnebyEmail(email);
     if (!userdb) {
       return {
         status: HttpStatus.NOT_FOUND,
@@ -94,9 +91,7 @@ export class AuthService {
       };
     }
     const id = decoded.id;
-    const auth = await this.userRepository.findOne({
-      where: { id },
-    });
+    const auth = await this.usuarioService.findOneById(id);
     if (!auth) {
       return {
         status: HttpStatus.CONFLICT,
@@ -105,6 +100,19 @@ export class AuthService {
       };
     }
     return { status: HttpStatus.OK, error: null, userId: decoded.id };
+  }
+
+  async findUserbyId(payload) {
+    console.log(payload.idUser);
+    const userdb = await this.usuarioService.findOneById(payload.idUser);
+    if (!userdb) {
+      return {
+        status: HttpStatus.CONFLICT,
+        error: ['User not found'],
+        userId: null,
+      };
+    }
+    return { status: HttpStatus.OK, error: null, user: userdb };
   }
 
   private getJwtToken(payload: { id: number }) {
