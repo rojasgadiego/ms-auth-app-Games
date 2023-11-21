@@ -51,7 +51,7 @@ message ValidateResponse {
 //findUserbyId 
 
 message findUserRequest {
-  int32 idUser = 1;
+  int32 id = 1;
 }
 
 message User {

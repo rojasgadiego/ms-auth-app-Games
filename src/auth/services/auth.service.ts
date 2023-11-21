@@ -1,12 +1,8 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { LoginUserDto, CreateUserDto } from '../dto/index';
 import { UsuarioService } from 'src/usuario/services/usuario.service';
-import { FindUserId } from '../dto/finduserbyId.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,21 +24,6 @@ export class AuthService {
     return { status: HttpStatus.CREATED, error: null };
   }
 
-  // async register(createUserDto: CreateUserDto) {
-  //   try {
-  //     const { password, ...userData } = createUserDto;
-  //     const usuario = this.userRepository.create({
-  //       ...userData,
-  //       password: bcrypt.hashSync(password, 10),
-  //     });
-  //     await this.userRepository.save(usuario);
-  //     delete usuario.password;
-  //     const { id, ...userdetail } = usuario;
-  //     return { ...userdetail, token: this.getJwtToken({ id: usuario.id }) };
-  //   } catch (error) {
-  //     throw new BadRequestException(error.detail);
-  //   }
-  // }
 
   async login({ email, password }: LoginUserDto) {
     let userdb = await this.usuarioService.findOnebyEmail(email);
@@ -63,23 +44,6 @@ export class AuthService {
     return { status: HttpStatus.OK, error: null, token: token };
   }
 
-  // async login(loginUserDto: LoginUserDto) {
-  //   const { password, email } = loginUserDto;
-  //   const user = await this.userRepository.findOne({
-  //     where: { email },
-  //     select: { email: true, password: true, id: true },
-  //   });
-
-  //   if (!user)
-  //     throw new UnauthorizedException('Credentials are not valid (email)');
-
-  //   if (!bcrypt.compareSync(password, user.password))
-  //     throw new UnauthorizedException('Credentials are not valid (password)');
-
-  //   delete user.password;
-  //   const { id, ...userdetail } = user;
-  //   return { ...userdetail, token: this.getJwtToken({ id: user.id }) };
-  // }
 
   public async validate(token: string) {
     const decoded = await this.JwtService.verify(token);
@@ -103,8 +67,7 @@ export class AuthService {
   }
 
   async findUserbyId(payload) {
-    console.log(payload.idUser);
-    const userdb = await this.usuarioService.findOneById(payload.idUser);
+    const userdb = await this.usuarioService.findOneById(payload.id);
     if (!userdb) {
       return {
         status: HttpStatus.CONFLICT,

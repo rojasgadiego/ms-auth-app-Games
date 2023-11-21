@@ -1,9 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto, LoginUserDto, ValidateUserDto } from '../dto/index';
+import { CreateUserDto, LoginUserDto, ValidateUserDto,FindUserIdDto } from '../dto/index';
 import { GrpcMethod } from '@nestjs/microservices';
 import { ApiTags } from '@nestjs/swagger';
-import { FindUserId } from '../dto/finduserbyId.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -26,8 +25,7 @@ export class AuthController {
   }
 
   @GrpcMethod('AuthService', 'findUserById')
-  public async findUserById(payload: FindUserId) {
-    console.log(payload);
-    return await this.authService.findUserbyId(payload);
+  findUserById(payload: FindUserIdDto) {
+    return this.authService.findUserbyId(payload);
   }
 }
