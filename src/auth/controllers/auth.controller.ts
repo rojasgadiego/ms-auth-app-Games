@@ -21,7 +21,7 @@ export class AuthController {
 
   @GrpcMethod('AuthService', 'Validate')
   validate(payload: ValidateUserDto) {
-    return this.authService.validate(payload.token);
+    return this.authService.validate(payload);
   }
 
   @GrpcMethod('AuthService', 'findUserById')

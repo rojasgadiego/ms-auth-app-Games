@@ -1,7 +1,7 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { LoginUserDto, CreateUserDto } from '../dto/index';
+import { LoginUserDto, CreateUserDto, ValidateUserDto } from '../dto/index';
 import { UsuarioService } from 'src/usuario/services/usuario.service';
 
 @Injectable()
@@ -45,8 +45,9 @@ export class AuthService {
   }
 
 
-  public async validate(token: string) {
-    const decoded = await this.JwtService.verify(token);
+  async validate({token}: ValidateUserDto) {
+    try {
+      const decoded = await this.JwtService.verify(token);
     if (!decoded) {
       return {
         status: HttpStatus.FORBIDDEN,
@@ -64,6 +65,10 @@ export class AuthService {
       };
     }
     return { status: HttpStatus.OK, error: null, userId: decoded.id };
+    } catch(error) {
+      return { status: HttpStatus.FORBIDDEN ,error: ['Token is invalid'], userId: null };
+    }
+    
   }
 
   async findUserbyId(payload) {
