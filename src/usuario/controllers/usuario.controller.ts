@@ -9,29 +9,4 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @UseGuards(JwtAuthGuard)
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
-
-  // @Get('/getAll')
-  // findAll() {
-  //   return this.usuarioService.findAll();
-  // }
-
-  // @Get('/')
-  // findAll() {
-  //   return this.usuarioService.findAll();
-  // }
-
-  // @Get('/')
-  // findOne(@Body('email') email: string) {
-  //   return this.usuarioService.findOne(email);
-  // }
-
-  @Get(':email')
-  findOne(@Param('email') email: string) {
-    return this.usuarioService.findOnebyEmail(email);
-  }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-  //   return this.usuarioService.update(+id, updateUsuarioDto);
-  // }
 }
