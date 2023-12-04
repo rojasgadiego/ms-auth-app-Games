@@ -17,7 +17,6 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true, //never in production
     }),
-    UsuarioModule,
     AuthModule,
   ],
   controllers: [],

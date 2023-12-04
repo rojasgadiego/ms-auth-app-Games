@@ -24,7 +24,6 @@ export class AuthService {
     return { status: HttpStatus.CREATED, error: null };
   }
 
-
   async login({ email, password }: LoginUserDto) {
     let userdb = await this.usuarioService.findOnebyEmail(email);
     if (!userdb) {
@@ -44,31 +43,33 @@ export class AuthService {
     return { status: HttpStatus.OK, error: null, token: token };
   }
 
-
-  async validate({token}: ValidateUserDto) {
+  async validate({ token }: ValidateUserDto) {
     try {
       const decoded = await this.JwtService.verify(token);
-    if (!decoded) {
+      if (!decoded) {
+        return {
+          status: HttpStatus.FORBIDDEN,
+          error: ['Token is invalid'],
+          userId: null,
+        };
+      }
+      const id = decoded.id;
+      const auth = await this.usuarioService.findOneById(id);
+      if (!auth) {
+        return {
+          status: HttpStatus.CONFLICT,
+          error: ['User not found'],
+          userId: null,
+        };
+      }
+      return { status: HttpStatus.OK, error: null, userId: decoded.id };
+    } catch (error) {
       return {
         status: HttpStatus.FORBIDDEN,
         error: ['Token is invalid'],
         userId: null,
       };
     }
-    const id = decoded.id;
-    const auth = await this.usuarioService.findOneById(id);
-    if (!auth) {
-      return {
-        status: HttpStatus.CONFLICT,
-        error: ['User not found'],
-        userId: null,
-      };
-    }
-    return { status: HttpStatus.OK, error: null, userId: decoded.id };
-    } catch(error) {
-      return { status: HttpStatus.FORBIDDEN ,error: ['Token is invalid'], userId: null };
-    }
-    
   }
 
   async findUserbyId(payload) {

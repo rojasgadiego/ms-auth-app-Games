@@ -1,10 +1,13 @@
 import { Controller } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto, LoginUserDto, ValidateUserDto,FindUserIdDto } from '../dto/index';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  ValidateUserDto,
+  FindUserIdDto,
+} from '../dto/index';
 import { GrpcMethod } from '@nestjs/microservices';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
