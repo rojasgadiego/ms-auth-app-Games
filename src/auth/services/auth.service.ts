@@ -25,12 +25,13 @@ export class AuthService {
   }
 
   async login({ email, password }: LoginUserDto) {
-    let userdb = await this.usuarioService.findOnebyEmail(email);
+    const userdb = await this.usuarioService.findOnebyEmail(email);
     if (!userdb) {
       return {
         status: HttpStatus.NOT_FOUND,
         error: ['E-Mail not found'],
         token: null,
+        idUser: null,
       };
     }
     if (!bcrypt.compareSync(password, userdb.password))
@@ -38,9 +39,15 @@ export class AuthService {
         status: HttpStatus.NOT_FOUND,
         error: ['Password wrong'],
         token: null,
+        idUser: null,
       };
     const token = this.getJwtToken({ id: userdb.id });
-    return { status: HttpStatus.OK, error: null, token: token };
+    return {
+      status: HttpStatus.OK,
+      error: null,
+      token: token,
+      idUser: userdb.id,
+    };
   }
 
   async validate({ token }: ValidateUserDto) {
