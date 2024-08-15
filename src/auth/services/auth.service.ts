@@ -11,13 +11,13 @@ export class AuthService {
     private usuarioService: UsuarioService,
   ) {}
 
-  async register({ email, password, name }: CreateUserDto) {
+  async register({ email, password, nombre }: CreateUserDto) {
     let auth = await this.usuarioService.findOnebyEmail(email);
     if (auth) {
       return { status: HttpStatus.CONFLICT, error: ['E-Mail already exists'] };
     }
     await this.usuarioService.createUser({
-      name,
+      nombre,
       email,
       password: bcrypt.hashSync(password, 10),
     });
@@ -69,7 +69,7 @@ export class AuthService {
           userId: null,
         };
       }
-      return { status: HttpStatus.OK, error: null, userId: decoded.id };
+      return { status: HttpStatus.OK, error: null, userId: auth.id };
     } catch (error) {
       return {
         status: HttpStatus.FORBIDDEN,
@@ -91,7 +91,7 @@ export class AuthService {
     return { status: HttpStatus.OK, error: null, user: userdb };
   }
 
-  private getJwtToken(payload: { id: number }) {
+  private getJwtToken(payload: { id: string }) {
     const token = this.JwtService.sign(payload);
     return token;
   }

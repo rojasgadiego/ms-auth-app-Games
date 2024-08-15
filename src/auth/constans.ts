@@ -1,1 +1,1 @@
-export const JwtSecret = 'secretapiKey$vgryq178'
+export const JwtSecret = 'secretapiKey$vgryq178';
